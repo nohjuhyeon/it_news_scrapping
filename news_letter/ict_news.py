@@ -62,7 +62,7 @@ def fetch_news_date(news_link, browser):
             return handler(browser)
     return None
 
-def process_links(link_elements, collection, browser,news_subject):
+def process_links(link_elements, collection, browser,news_topic):
     results = collection.find({},{'_id':0,'news_link':1})
     link_list = [i['news_link'] for i in results]
     original_window = browser.current_window_handle
@@ -82,7 +82,7 @@ def process_links(link_elements, collection, browser,news_subject):
                     link_element.click()
                     browser.switch_to.window(browser.window_handles[-1])
                     try:
-                        chosun(link, collection, browser,news_subject)
+                        chosun(link, collection, browser,news_topic)
                     except:
                         pass
                     browser.close()
@@ -92,7 +92,7 @@ def process_links(link_elements, collection, browser,news_subject):
                     link_element.click()
                     browser.switch_to.window(browser.window_handles[-1])
                     try:
-                        sbs_biz(link, collection, browser,news_subject)
+                        sbs_biz(link, collection, browser,news_topic)
                     except:
                         pass
                     browser.close()
@@ -102,7 +102,7 @@ def process_links(link_elements, collection, browser,news_subject):
                     link_element.click()
                     browser.switch_to.window(browser.window_handles[-1])
                     try:
-                        kbs(link, collection, browser,news_subject)
+                        kbs(link, collection, browser,news_topic)
                     except:
                         pass
                     browser.close()
@@ -112,7 +112,7 @@ def process_links(link_elements, collection, browser,news_subject):
                     link_element.click()
                     browser.switch_to.window(browser.window_handles[-1])
                     try:
-                        boannews(link, collection, browser,news_subject)
+                        boannews(link, collection, browser,news_topic)
                     except:
                         pass
                     browser.close()
@@ -134,7 +134,7 @@ def process_links(link_elements, collection, browser,news_subject):
                         browser.close()
                         browser.switch_to.window(browser.window_handles[-1])
                     
-                    insert_news(collection, title, content, date, link,news_subject) 
+                    insert_news(collection, title, content, date, link,news_topic) 
             except:
                 pass
         for handle in browser.window_handles:
@@ -144,14 +144,14 @@ def process_links(link_elements, collection, browser,news_subject):
 
         browser.switch_to.window(original_window)
 
-def insert_news(collection, title, content, date, link,news_subject):
+def insert_news(collection, title, content, date, link,news_topic):
     # 뉴스 데이터를 MongoDB에 삽입하는 함수
     collection.insert_one({
         'news_title': title,
         'news_content': content,
         'news_date': date,
         'news_link': link,
-        'news_subject':news_subject
+        'news_topic':news_topic
     })
  
 def ict_news():
@@ -177,11 +177,11 @@ def ict_news():
         if '[ICT 뉴스' in content_title:
             for i in content_list_first:
                 try:
-                    news_subject = i.find_element(by=By.CSS_SELECTOR,value='div > span').text
+                    news_topic = i.find_element(by=By.CSS_SELECTOR,value='div > span').text
                 except:
-                    news_subject = i.find_element(by=By.CSS_SELECTOR,value='h2 > span').text
+                    news_topic = i.find_element(by=By.CSS_SELECTOR,value='h2 > span').text
                 contents_list = i.find_elements(by=By.CSS_SELECTOR,value='a')
-                process_links(contents_list, collection, browser,news_subject)
+                process_links(contents_list, collection, browser,news_topic)
         else:
             j = j - 1
         before_btn = browser.find_element(by=By.CSS_SELECTOR,value='#__next > div.styles__ContentLayout-sc-1gp3t1j-0.dsJnNu > div.styles__Layout-sc-1p30c38-0.gHNJKT > div > div.styles__PaginationButton-sc-1p30c38-2.dTIEOP.prev > div > div > div.title')

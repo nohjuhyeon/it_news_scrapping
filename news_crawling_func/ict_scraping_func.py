@@ -281,7 +281,7 @@ def kookje(browser):
     news_date = pd.to_datetime(' '.join(news_date.split(' ')[-2:]))
     return news_date
 
-def chosun(url,collection,browser,news_subject):
+def chosun(url,collection,browser,news_topic):
     time.sleep(1)
     try:
         news_title = browser.find_element(by=By.CSS_SELECTOR,value='#v-left-scroll-in > div.article_head > div.article_info > span:nth-child(1)').text
@@ -310,9 +310,9 @@ def chosun(url,collection,browser,news_subject):
                                     'news_content':news_content,
                                     'news_date': news_date,
                                     'news_link':news_link,
-                                    'news_subject':news_subject})
+                                    'news_topic':news_topic})
     
-def kbs(url,collection,browser,news_subject):
+def kbs(url,collection,browser,news_topic):
     time.sleep(1)
     news_title = browser.find_element(by=By.CSS_SELECTOR,value='h4.headline-title').text
     news_content = browser.find_element(by=By.CSS_SELECTOR,value='div > #cont_newstext').text
@@ -323,9 +323,9 @@ def kbs(url,collection,browser,news_subject):
                                     'news_content':news_content,
                                     'news_date': news_date,
                                     'news_link':news_link,
-                                    'news_subject':news_subject})  
+                                    'news_topic':news_topic})  
 
-def boannews(url,collection,browser,news_subject):
+def boannews(url,collection,browser,news_topic):
     time.sleep(1)
     news_title = browser.find_element(by=By.CSS_SELECTOR,value='#news_title02 > h1').text
     news_content = browser.find_element(by=By.CSS_SELECTOR,value='div#news_content').text
@@ -336,9 +336,9 @@ def boannews(url,collection,browser,news_subject):
                                     'news_content':news_content,
                                     'news_date': news_date,
                                     'news_link':news_link,
-                                    'news_subject':news_subject})  
+                                    'news_topic':news_topic})  
 
-def sbs_biz(url,collection,browser,news_subject):
+def sbs_biz(url,collection,browser,news_topic):
     time.sleep(1)
     news_title = browser.find_element(by=By.CSS_SELECTOR,value='#cnbc-front-articleHeader-self > div > div > h3').text
     news_content = browser.find_element(by=By.CSS_SELECTOR,value='#cnbc-front-articleContent-area-font').text    
@@ -349,7 +349,7 @@ def sbs_biz(url,collection,browser,news_subject):
                                     'news_content':news_content,
                                     'news_date': news_date,
                                     'news_link':news_link,
-                                    'news_subject':news_subject})  
+                                    'news_topic':news_topic})  
 
     return news_date
 
