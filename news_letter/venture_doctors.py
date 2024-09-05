@@ -10,7 +10,7 @@ import time
 import pandas as pd 
 from selenium.webdriver.chrome.options import Options
 
-from pymongo import MongoClient
+from pymongo import MongoClient  
 import os 
 
 def venture_doctors():
