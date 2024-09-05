@@ -1,3 +1,5 @@
 selenium
 webdriver_manager
 pymongo
+apscheduler
+newspaper3k
