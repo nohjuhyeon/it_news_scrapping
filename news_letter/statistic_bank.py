@@ -138,6 +138,7 @@ def insert_news(collection, title, content, date, link):
     })
 
 def statistic_bank():
+    crawling_count = 0
     # MongoDB 클라이언트 및 컬렉션 설정
     mongo_url = os.getenv("DATABASE_URL")
     mongo_client = MongoClient(mongo_url)
@@ -173,6 +174,8 @@ def statistic_bank():
 
     # 브라우저 종료
     browser.quit()
+    print('statistic bank crawling finish')
+    print('crawling count : ',crawling_count)
 
 # 크롤링 함수 실행
 # statistic_bank()

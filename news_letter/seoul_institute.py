@@ -13,6 +13,7 @@ from selenium.webdriver.chrome.options import Options
 
 from pymongo import MongoClient
 def seoul_institute():
+    crawling_count = 0
     mongo_url = os.getenv("DATABASE_URL")
     mongo_client = MongoClient(mongo_url)
     # database 연결
@@ -131,5 +132,7 @@ def seoul_institute():
         time.sleep(1)
 
     browser.quit()                                      # - 브라우저 종료
+    print('seoul institute crawling finish')
+    print('crawling count : ',crawling_count)
 
 # seoul_institute()

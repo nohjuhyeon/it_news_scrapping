@@ -14,6 +14,7 @@ from pymongo import MongoClient
 import os 
 
 def venture_doctors():
+        crawling_count = 0
         mongo_url = os.getenv("DATABASE_URL")
         mongo_client = MongoClient(mongo_url)
         # database 연결
@@ -71,16 +72,19 @@ def venture_doctors():
                         if news_title in title_list:
                                 scrapping_finsih = True
                                 browser.back()
-                                # break
+                                break
                         else:
                                 collection.insert_one({'news_title':news_title,
                                         'news_content':news_content,
                                         'news_date': news_date,
                                         'news_link':news_link})
+                                crawling_count += 1
                                 browser.back()
                 time.sleep(2)
-                # if scrapping_finsih == True:
-                #         break
+                if scrapping_finsih == True:
+                        break
                                 
         browser.quit()                                      # - 브라우저 종료
-venture_doctors()
+        print('venture_doctors crawling finish')
+        print('crawling count : ',crawling_count)
+# venture_doctors()
