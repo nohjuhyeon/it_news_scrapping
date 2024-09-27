@@ -132,6 +132,7 @@ def process_links(link_elements, collection, browser,link_list,crawling_count):
                         crawling_count += 1
                 except:
                     pass
+    return crawling_count
 
 def insert_news(collection, title, content, date, link):
     # 뉴스 데이터를 MongoDB에 삽입하는 함수
@@ -166,7 +167,7 @@ def statistic_bank():
 
         # 첫 번째 링크 리스트를 가져와 처리
         link_list_1st = browser.find_elements(By.CSS_SELECTOR, 'body > div.public-email > div > table > tbody > tr > td > div > table > tbody > tr > td > table > tbody > tr > td > div > div.stb-text-box > table > tbody > tr > td > div > a')
-        process_links(link_list_1st, collection, browser,link_list,crawling_count)
+        crawling_count = process_links(link_list_1st, collection, browser,link_list,crawling_count)
 
         # # 두 번째 링크 리스트를 가져와 처리
         # link_list_2nd = browser.find_elements(By.CSS_SELECTOR, 'body > div.public-email > div > table > tbody > tr > td > div > table > tbody > tr > td > table > tbody > tr > td > div > div > table > tbody > tr > td > table.stb-cell-wrap-cta > tbody > tr > td > a')
