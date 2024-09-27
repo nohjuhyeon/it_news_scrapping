@@ -71,6 +71,7 @@ def seoul_institute():
 
                                     })
                 browser.back()
+                crawling_count += 1
                 time.sleep(1)
             else:
                 finish_check = True
@@ -115,6 +116,7 @@ def seoul_institute():
                                             'news_subject':'세계도시동향'
                                         })
                     browser.back()
+                    crawling_count += 1
                     time.sleep(1)
                 else:
                     finish_check = True

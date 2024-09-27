@@ -62,7 +62,7 @@ def fetch_news_date(news_link, browser):
             return handler(browser)
     return None
 
-def process_links(link_elements, collection, browser,news_topic):
+def process_links(link_elements, collection, browser,news_topic,crawling_count):
     results = collection.find({},{'_id':0,'news_link':1})
     link_list = [i['news_link'] for i in results]
     original_window = browser.current_window_handle
@@ -83,6 +83,7 @@ def process_links(link_elements, collection, browser,news_topic):
                     browser.switch_to.window(browser.window_handles[-1])
                     try:
                         chosun(link, collection, browser,news_topic)
+                        crawling_count+=1
                     except:
                         pass
                     browser.close()
@@ -93,6 +94,7 @@ def process_links(link_elements, collection, browser,news_topic):
                     browser.switch_to.window(browser.window_handles[-1])
                     try:
                         sbs_biz(link, collection, browser,news_topic)
+                        crawling_count+=1
                     except:
                         pass
                     browser.close()
@@ -103,6 +105,7 @@ def process_links(link_elements, collection, browser,news_topic):
                     browser.switch_to.window(browser.window_handles[-1])
                     try:
                         kbs(link, collection, browser,news_topic)
+                        crawling_count+=1
                     except:
                         pass
                     browser.close()
@@ -113,6 +116,7 @@ def process_links(link_elements, collection, browser,news_topic):
                     browser.switch_to.window(browser.window_handles[-1])
                     try:
                         boannews(link, collection, browser,news_topic)
+                        crawling_count+=1
                     except:
                         pass
                     browser.close()
@@ -135,6 +139,7 @@ def process_links(link_elements, collection, browser,news_topic):
                         browser.switch_to.window(browser.window_handles[-1])
                     
                     insert_news(collection, title, content, date, link,news_topic) 
+                    crawling_count+=1
             except:
                 pass
         for handle in browser.window_handles:
@@ -143,6 +148,7 @@ def process_links(link_elements, collection, browser,news_topic):
                 browser.close()
 
         browser.switch_to.window(original_window)
+    return crawling_count
 
 def insert_news(collection, title, content, date, link,news_topic):
     # 뉴스 데이터를 MongoDB에 삽입하는 함수
@@ -171,7 +177,7 @@ def ict_news():
     # 메인 페이지에서 콘텐츠 리스트를 가져옴
     
 
-    for j in range(5):
+    for j in range(10):
         time.sleep(1)
         content_list_first = browser.find_elements(by=By.CSS_SELECTOR,value='div.stb-left-cell > div.stb-text-box > table > tbody > tr > td')
         content_title = browser.find_element(by=By.CSS_SELECTOR,value='#__next > div.styles__ContentLayout-sc-1gp3t1j-0.dsJnNu > div.styles__ContentTitleWrapper-sc-f7jtp3-0.jWHlht > div.styles__Title-sc-f7jtp3-1.edStrD').text
@@ -182,7 +188,7 @@ def ict_news():
                 except:
                     news_topic = i.find_element(by=By.CSS_SELECTOR,value='h2 > span').text
                 contents_list = i.find_elements(by=By.CSS_SELECTOR,value='a')
-                process_links(contents_list, collection, browser,news_topic)
+                crawling_count = process_links(contents_list, collection, browser,news_topic,crawling_count)
         else:
             j = j - 1
         before_btn = browser.find_element(by=By.CSS_SELECTOR,value='#__next > div.styles__ContentLayout-sc-1gp3t1j-0.dsJnNu > div.styles__Layout-sc-1p30c38-0.gHNJKT > div > div.styles__PaginationButton-sc-1p30c38-2.dTIEOP.prev > div > div > div.title')
@@ -197,5 +203,4 @@ def ict_news():
     print('crawling count : ',crawling_count)
 
 # 크롤링 함수 실행
-# ict_news()
-
+ict_news()
